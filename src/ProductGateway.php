@@ -109,4 +109,90 @@ class ProductGateway
 
         return $stmt->rowCount();
     }
+
+    public function getAllAirplanes(): array
+    {
+        $sql = "SELECT *
+        FROM Airplane";
+
+        $stmt = $this->conn->query($sql);
+
+        $data = [];
+
+        while ($row  = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $data[] = $row;
+        }
+
+        return $data;
+    }
+
+    public function createAirplane(array $data): string
+    {
+        $sql = "INSERT INTO Airplane (NUMSER, MANUFACTURER, MODEL, TOTAL_SEATS)
+                VALUES (:NUMSER, :MANUFACTURER, :MODEL, :TOTAL_SEATS)";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":NUMSER", (int) $data["numser"], PDO::PARAM_INT);
+        $stmt->bindValue(":MANUFACTURER", $data["manufacturer"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":MODEL", $data["model"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":TOTAL_SEATS", (int) ($data["total_seats"] ?? 0), PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $this->conn->lastInsertId();
+    }
+
+    public function updateAirplane(array $current, array $new, string $id): int
+    {
+        $sql = "UPDATE Airplane
+                SET MANUFACTURER = :MANUFACTURER, MODEL = :MODEL, TOTAL_SEATS = :TOTAL_SEATS
+                WHERE NUMSER =:NUMSER";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":MANUFACTURER", !empty($new["manufacturer"]) ? $new["manufacturer"] : $current["MANUFACTURER"], PDO::PARAM_STR);
+        $stmt->bindValue(":MODEL", !empty($new["model"]) ? $new["model"] : $current["MODEL"], PDO::PARAM_STR);
+        $stmt->bindValue(":TOTAL_SEATS", !empty($new["total_seats"]) ? (int)$new["total_seats"] : $current["TOTAL_SEATS"], PDO::PARAM_INT);
+
+        $stmt->bindValue(":NUMSER", (int) $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
+    public function getAirplane(string $id): ?array{
+        $sql = "SELECT *
+        FROM Airplane
+        WHERE Airplane.numser = :numser";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":numser", $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data === false) {
+            return null;
+        }
+
+        return $data;
+    }
+
+    public function deleteAirplane(string $id): int
+    {
+        $sql = "DELETE FROM Airplane WHERE NUMSER = :NUMSER";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":NUMSER", $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
 }

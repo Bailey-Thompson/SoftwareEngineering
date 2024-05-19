@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Data to HTML with Twig</title>
+    <style>
+    input {
+        text-align: center;
+        width: 100%;
+        padding: 12px 20px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    #data-container{
+        text-align: center;
+        width: 40%;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    </style>
+</head>
+<body>
+
+    <div id="data-container">
+        <p><span>Serial Number:</span> {{ NUMSER }}</p>
+        <p><span>Manufacturer:</span> {{ Manufacturer }}</p>
+        <p><span>Model:</span> {{ Model }}</p>
+        <p><span>Total Seats:</span> {{ Total_Seats }}</p>
+    </div>
+</script>
+</body>
+</html>

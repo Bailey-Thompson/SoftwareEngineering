@@ -62,31 +62,31 @@ switch ($request) {
     case '/airplane':
         require __DIR__ . $viewDir . 'airplane.php';
         break;
-    case '/NewAirport':
-        require_once(__DIR__ . '/views/airport/newairport.twig');
+    case '/NewAirplane':
+        require_once(__DIR__ . '/views/airplane/newairplane.twig');
         break;
-    case '/UpdateAirport':
-        require_once(__DIR__ . '/views/airport/updateairport.twig');
+    case '/UpdateAirplane':
+        require_once(__DIR__ . '/views/airplane/updateairplane.twig');
         break;
-    case '/createAirport':
-        require __DIR__ . '/src/controllers/airportcontrollers/AddAirport.php';
-        $controller = new AddAirport($gateway, $twig);
-        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
+    case '/createAirplane':
+        require __DIR__ . '/src/controllers/airplanecontrollers/AddAirplane.php';
+        $controller = new AddAirplane($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['NUMSER']);
         break;
-    case '/updateAirport':
-        require __DIR__ . '/src/controllers/airportcontrollers/UpdateAirport.php';
-        $controller = new UpdateAirport($gateway, $twig);
-        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
+    case '/updateAirplane':
+        require __DIR__ . '/src/controllers/airplanecontrollers/UpdateAirplane.php';
+        $controller = new UpdateAirplane($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['NUMSER']);
         break;
-    case '/viewAirport':
-        require __DIR__ . '/src/controllers/airportcontrollers/ViewAirport.php';
-        $controller = new ViewAirport($gateway, $twig);
-        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
+    case '/viewAirplane':
+        require __DIR__ . '/src/controllers/airplanecontrollers/ViewAirplane.php';
+        $controller = new ViewAirplane($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['NUMSER']);
         break;
-    case '/deleteAirport':
-        require __DIR__ . '/src/controllers/airportcontrollers/DeleteAirport.php';
-        $controller = new DeleteAirport($gateway, $twig);
-        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
+    case '/deleteAirplane':
+        require __DIR__ . '/src/controllers/airplanecontrollers/DeleteAirplane.php';
+        $controller = new DeleteAirplane($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['NUMSER']);
         break;
     default:
         http_response_code(404);

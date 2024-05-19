@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .navbar {
+        background-color: #4CAF50;
+        overflow: hidden;
+    }
+    
+    .navbar a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 20px;
+        text-decoration: none;
+    }
+    
+    .navbar a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+    input {
+        text-align: center;
+        width: 100%;
+        padding: 12px 20px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    form {
+        text-align: center;
+        width: 40%;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#" onclick="redirectToHome()">Home</a>
+        <a href="#" onclick="redirectToNAirplane()">New Airplane</a>
+        <a href="#" onclick="redirectToUAirplane()">Update Airplane</a>
+    </div>
+
+    <form action="/createAirplane" method="POST">
+        <input type="number" id="NUMSER" name="NUMSER" placeholder="Serial Number">
+        <br>
+        <input type="text" id="MANUFACTURER" name="MANUFACTURER" placeholder="Manufacturer">
+        <br>
+        <input type="text" id="MODEL" NAME="MODEL" placeholder="Model">
+        <br>
+        <input type="number" id="TOTAL_SEATS" NAME="TOTAL_SEATS" placeholder="Total Seats">
+        <br>
+        <button type="submit">Create</button>
+    </form>
+    <script>
+    function redirectToHome() {
+        window.location.href = "/"
+    }
+    function redirectToNAirplane() {
+        window.location.href = "/NewAirplane"
+    }
+    function redirectToUAirplane() {
+        window.location.href = "/UpdateAirplane"
+    }
+    </script>
+</body>
+</html>
