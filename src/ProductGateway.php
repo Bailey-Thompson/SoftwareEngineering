@@ -180,23 +180,6 @@ class ProductGateway
         return $stmt->rowCount();
     }
 
-    public function getAllFlights(): array
-    {
-        $sql = "SELECT *
-        FROM Flight";
-
-        $stmt = $this->conn->query($sql);
-
-        $data = [];
-
-        while ($row  = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-            $data[] = $row;
-        }
-
-        return $data;
-    }
-
     public function createFlight(array $data): string
     {
         function formatDate($date) {
@@ -365,6 +348,50 @@ class ProductGateway
         $stmt->execute();
 
         return $this->conn->lastInsertId();
+    }
+
+    public function getStaff(string $id): ?array{
+        $sql = "SELECT *
+        FROM Staff_Flight
+        WHERE Staff_Flight.flightnum = :flightnum";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":flightnum", $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        
+        $data = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $data[] = $row;
+        }
+
+        return $data;
+    }
+
+    public function getPassengers(string $id): ?array{
+        $sql = "SELECT *
+        FROM Flight_Information
+        WHERE Flight_Information.flightnum = :flightnum";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":flightnum", $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        
+        $data = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $data[] = $row;
+        }
+
+        return $data;
     }
 
     public function createPassenger(array $data): string

@@ -116,11 +116,21 @@ switch ($request) {
         $controller = new AddStaff($gateway, $twig);
         $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['EMPNUM']);
         break;
-    case '/SearchStaff':
-        require_once(__DIR__ . '/views/flight/searchstaff.twig');
+    case '/SStaff':
+        require_once(__DIR__ . '/views/displayStaff.php');
         break;
-    case '/SearchPassengers':
-        require_once(__DIR__.'/views/flight.searchpassengers.twig');
+    case '/loadStaff':
+        require __DIR__ . '/src/controllers/flightcontrollers/ViewStaff.php';
+        $controller = new ViewStaff($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['FLIGHTNUM']);
+        break;
+    case '/SPassengers':
+        require_once(__DIR__.'/views/displayPassengers.php');
+        break;
+    case '/loadPassengers':
+        require __DIR__ . '/src/controllers/flightcontrollers/ViewPassengers.php';
+        $controller = new ViewPassengers($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['FLIGHTNUM']);
         break;
     case '/createFlight':
         require __DIR__ . '/src/controllers/flightcontrollers/AddFlight.php';
