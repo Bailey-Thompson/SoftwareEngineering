@@ -56,7 +56,7 @@ switch ($request) {
         break;
     case '/deleteAirport':
         require __DIR__ . '/src/controllers/airportcontrollers/DeleteAirport.php';
-        $controller = new UpdateAirport($gateway, $twig);
+        $controller = new DeleteAirport($gateway, $twig);
         $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
         break;
     default:
