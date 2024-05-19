@@ -6,7 +6,7 @@ $loader = new \Twig\Loader\FilesystemLoader(__DIR__);
 
 $twig = new \Twig\Environment(new \Twig\Loader\FilesystemLoader(__DIR__ . '/../../../views'));
 
-class AddAirport
+class AddPassenger
 {
     private ProductGateway $gateway;
     private \Twig\Environment $twig;
@@ -17,10 +17,13 @@ class AddAirport
     }
     public function processRequest(string $method, ?string $id): void
     {
-        $aircode = $_POST["AIRCODE"];
-        $timezone = $_POST["TIME_ZONE"];
+        $passnum = $_POST["PASSNUM"];
+        $surname = $_POST["SURNAME"];
+        $forename = $_POST["FORENAME"];
+        $address = $_POST["ADDRESS"];
+        $phone = $_POST["PHONE"];
 
-        $data = ["aircode" => $aircode, "time_zone" => $timezone];
+        $data = ["passnum" => $passnum, "surname" => $surname, "forename" => $forename, "address" => $address, "phone" => $phone];
 
         $this->processResourceRequest($method, $data);
 
@@ -38,7 +41,7 @@ class AddAirport
                         break;
                     }
         
-                    $id = $this->gateway->createAirport($data);
+                    $id = $this->gateway->createPassenger($data);
                     http_response_code(201);
                     echo $this->twig->render("home.php",$data);
                     break;

@@ -146,10 +146,10 @@ switch ($request) {
         require __DIR__ . $viewDir . 'passenger.php';
         break;
     case '/NewPassenger':
-        require_once(__DIR__ . '/views/airplane/newpassenger.twig');
+        require_once(__DIR__ . '/views/passenger/newpassenger.twig');
         break;
     case '/UpdatePassenger':
-        require_once(__DIR__ . '/views/airplane/updatepassenger.twig');
+        require_once(__DIR__ . '/views/passenger/updatepassenger.twig');
         break;
     case '/createPassenger':
         require __DIR__ . '/src/controllers/passengercontrollers/AddPassenger.php';

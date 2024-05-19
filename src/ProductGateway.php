@@ -132,8 +132,6 @@ class ProductGateway
                 WHERE NUMSER = :NUMSER";
     
         $stmt = $this->conn->prepare($sql);
-
-        var_dump($current);
     
         $manufacturer = isset($new["manufacturer"]) && !empty($new["manufacturer"]) ? $new["manufacturer"] : $current["Manufacturer"];
         $model = isset($new["model"]) && !empty($new["model"]) ? $new["model"] : $current["Model"];
@@ -352,5 +350,80 @@ class ProductGateway
         }
 
         return $data;
+    }
+
+    public function createPassenger(array $data): string
+    {
+        $sql = "INSERT INTO Passenger (PASSNUM, SURNAME, FORENAME, ADDRESS, PHONE)
+                VALUES (:PASSNUM, :SURNAME, :FORENAME, :ADDRESS, :PHONE)";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":PASSNUM", $data["passnum"], PDO::PARAM_INT);
+        $stmt->bindValue(":SURNAME", $data["surname"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":FORENAME", $data["forename"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":ADDRESS", $data["address"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":PHONE", $data["phone"] ?? "", PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $this->conn->lastInsertId();
+    }
+
+    public function updatePassenger(array $current, array $new, string $id): int
+    {
+        $sql = "UPDATE Passenger
+                SET SURNAME = :SURNAME, FORENAME = :FORENAME, ADDRESS = :ADDRESS, PHONE = :PHONE
+                WHERE PASSNUM = :PASSNUM";
+    
+        $stmt = $this->conn->prepare($sql);
+    
+        $surname = isset($new["surname"]) && !empty($new["surname"]) ? $new["surname"] : $current["Surname"];
+        $forename = isset($new["forename"]) && !empty($new["forename"]) ? $new["forename"] : $current["Forename"];
+        $address = isset($new["address"]) && !empty($new["address"]) ? $new["address"] : $current["Address"];
+        $phone = isset($new["phone"]) && !empty($new["phone"]) ? $new["phone"] : $current["Phone"];
+    
+        $stmt->bindValue(":SURNAME", $surname, PDO::PARAM_STR);
+        $stmt->bindValue(":FORENAME", $forename, PDO::PARAM_STR);
+        $stmt->bindValue(":ADDRESS", $address, PDO::PARAM_STR);
+        $stmt->bindValue(":PHONE", $phone, PDO::PARAM_STR);
+        $stmt->bindValue(":PASSNUM", (int) $id, PDO::PARAM_INT);
+    
+        $stmt->execute();
+    
+        return $stmt->rowCount();
+    }
+
+    public function getPassenger(string $id): ?array{
+        $sql = "SELECT *
+        FROM Passenger
+        WHERE Passenger.passnum = :passnum";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":passnum", $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data === false) {
+            return null;
+        }
+
+        return $data;
+    }
+
+    public function deletePassenger(string $id): int
+    {
+        $sql = "DELETE FROM Passenger WHERE PASSNUM = :PASSNUM";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":PASSNUM", $id, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
     }
 }
