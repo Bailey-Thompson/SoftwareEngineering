@@ -20,7 +20,7 @@ $database = new Database("localhost", "airline", "root", "Datto@2004");
 
 $gateway = new ProductGateway($database);
 
-$controller = new ProductController($gateway);
+//$controller = new ProductController($gateway);
 
 $request = $_SERVER['REQUEST_URI'];
 $viewDir = '/views/';
@@ -32,6 +32,35 @@ switch ($request) {
         break;
     case '/city':
         require __DIR__ . $viewDir . 'city.php';
+        break;
+    case '/NewAirport':
+        require_once(__DIR__ . '/views/airport/newairport.twig');
+        break;
+    case '/UpdateAirport':
+        require_once(__DIR__ . '/views/airport/updateairport.twig');
+        break;
+    case '/createAirport':
+        require __DIR__ . '/src/controllers/airportcontrollers/AddAirport.php';
+        $controller = new AddAirport($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
+        break;
+    case '/updateAirport':
+        require __DIR__ . '/src/controllers/airportcontrollers/UpdateAirport.php';
+        $controller = new UpdateAirport($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
+        break;
+    case '/viewAirport':
+        require __DIR__ . '/src/controllers/airportcontrollers/ViewAirport.php';
+        $controller = new ViewAirport($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
+        break;
+    case '/deleteAirport':
+        require __DIR__ . '/src/controllers/airportcontrollers/DeleteAirport.php';
+        $controller = new DeleteAirport($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
+        break;
+    case '/airplane':
+        require __DIR__ . $viewDir . 'airplane.php';
         break;
     case '/NewAirport':
         require_once(__DIR__ . '/views/airport/newairport.twig');
