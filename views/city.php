@@ -25,46 +25,23 @@
             color: black;
         }
 
-        body {
-            margin: 0;
-            background-color: #f2f2f2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .main-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            height: 100vh;
-            padding-top: 50px;
-        }
-
-        .button-row {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .large-button {
-            display: inline-block;
-            padding: 30px 60px;
-            margin: 0 20px;
-            width: 250px;
-            font-size: 24px;
+        input {
+        text-align: center;
+        width: 100%;
+        padding: 12px 20px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+        form {
             text-align: center;
-            text-decoration: none;
-            color: white;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-        }
-
-        .large-button:hover {
-            background-color: #45a049;
+            width: 40%;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
         }
     </style>
 </head>
@@ -76,8 +53,11 @@
     <a href="#" onclick="redirectToUAirport()">Update Airport</a>
 </div>
 
-<div class="main-container">
-</div>
+<form action="/viewAirport" method="POST">
+<input type="text" id="AIRCODE" name="AIRCODE" placeholder="Air Code">
+<button type="submit">View</button>
+<button type="submit" formaction="/deleteAirport">Delete</button>
+</form>
 
 <script>
     function redirectToHome() {

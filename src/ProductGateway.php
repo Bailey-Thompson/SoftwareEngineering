@@ -59,6 +59,43 @@ class ProductGateway
 
         return $this->conn->lastInsertId();
     }
+
+    public function updateAirport(array $current, array $new, string $id): int
+    {
+        $sql = "UPDATE City
+                SET TIME_ZONE = :TIME_ZONE
+                WHERE AIRCODE =:AIRCODE";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":TIME_ZONE", !empty($new["time_zone"]) ? $new["time_zone"] : $current["TIME_ZONE"], PDO::PARAM_STR);
+
+        $stmt->bindValue(":AIRCODE", $id, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
+    public function getAirport(string $id): ?array{
+        $sql = "SELECT *
+        FROM City
+        WHERE City.aircode = :aircode";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":aircode", $id, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data === false) {
+            return null;
+        }
+
+        return $data;
+    }
     public function create(array $data): string
     {
         

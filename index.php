@@ -25,37 +25,6 @@ $controller = new ProductController($gateway);
 $request = $_SERVER['REQUEST_URI'];
 $viewDir = '/views/';
 switch ($request) {
-    // case '/view':
-    //     require __DIR__ . '/src/controllers/ViewController.php';
-    //     $controller = new ViewController($gateway, $twig);
-    //     $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['ID']);
-    //     break;
-    // case '/create':
-    //     require __DIR__ . '/src/controllers/AddController.php';
-    //     $controller = new AddController($gateway, $twig);
-    //     $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['ID']);
-    //     break;
-    // case '/update':
-    //     require __DIR__ . '/src/controllers/UpdateController.php';
-    //     $controller = new UpdateController($gateway, $twig);
-    //     $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['ID']);
-    //     break;
-    // case '/delete':
-    //     require __DIR__ . '/src/controllers/DeleteController.php';
-    //     $controller = new DeleteController($gateway, $twig);
-    //     $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['ID']);
-    //     break;
-    // case '/add':
-    //     require __DIR__ . $viewDir . 'add.twig';
-    //     break;
-    // case '/all':
-    //     require __DIR__ . '/src/controllers/ViewAllController.php';
-    //     $controller = new ViewAllController($gateway, $twig);
-    //     $controller->processRequest($_SERVER['REQUEST_METHOD'], null);
-    //     break;
-    // case '/change':
-    //     require __DIR__ . $viewDir . 'update.twig';
-    //     break;
     case '':
     case '/':
         header('Content-Type: text/html');
@@ -67,12 +36,27 @@ switch ($request) {
     case '/NewAirport':
         require_once(__DIR__ . '/views/airport/newairport.twig');
         break;
-    case '/UpdateAirport';
+    case '/UpdateAirport':
         require_once(__DIR__ . '/views/airport/updateairport.twig');
         break;
     case '/createAirport':
         require __DIR__ . '/src/controllers/airportcontrollers/AddAirport.php';
         $controller = new AddAirport($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
+        break;
+    case '/updateAirport':
+        require __DIR__ . '/src/controllers/airportcontrollers/UpdateAirport.php';
+        $controller = new UpdateAirport($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
+        break;
+    case '/viewAirport':
+        require __DIR__ . '/src/controllers/airportcontrollers/ViewAirport.php';
+        $controller = new ViewAirport($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
+        break;
+    case '/deleteAirport':
+        require __DIR__ . '/src/controllers/airportcontrollers/DeleteAirport.php';
+        $controller = new UpdateAirport($gateway, $twig);
         $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
         break;
     default:
