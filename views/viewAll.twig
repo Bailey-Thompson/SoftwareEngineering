@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    .navbar {
+        background-color: #4CAF50;
+        overflow: hidden;
+    }
+    
+    .navbar a {
+        float: left;
+        display: block;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 20px;
+        text-decoration: none;
+    }
+    
+    .navbar a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+    input {
+        text-align: center;
+        width: 100%;
+        padding: 12px 20px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    li {
+        text-align: center;
+        width: 40%;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    ul {
+    list-style-type: none;
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="#" onclick="redirectToHome()">Home</a>
+    <a href="#" onclick="redirectToAdd()">Add New Record</a>
+    <a href="#" onclick="redirectToAll()">View All Records</a>
+    <a href="#" onclick="redirectToUpdate()">Update Record</a>
+    <a href="#" onclick="redirectToGraphs()">View Graphs</a>
+</div>
+
+{% if data %}
+    <ul>
+        {% for record in data %}
+            <li>
+                <strong>ID:</strong> {{ record.ID }}<br>
+                <strong>Kids Drive:</strong> {{ record.KIDSDRIV }}<br>
+                <strong>Age:</strong> {{ record.AGE }}<br>
+                <strong>Income:</strong> {{ record.INCOME }}<br>
+                <strong>Married:</strong> {{ record.MSTATUS }}<br>
+                <strong>Gender:</strong> {{ record.GENDER }}<br>
+                <strong>Education:</strong> {{ record.EDUCATION }}<br>
+                <strong>Occupation:</strong> {{ record.OCCUPATION }}<br>
+                <strong>Car Type:</strong> {{ record.CAR_TYPE }}<br>
+                <strong>Red Car:</strong> {{ record.RED_CAR }}<br>
+                <strong>Car Age:</strong> {{ record.CAR_AGE }}<br>
+                <strong>Claim Flag:</strong> {{ record.CLAIM_FLAG }}<br>
+                <strong>Claim Amount:</strong> {{ record.CLM_AMT }}<br>
+                <strong>Claim Frequency:</strong> {{ record.CLM_FREQ }}<br>
+                <strong>Old Claim:</strong> {{ record.OLDCLAIM }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No records found.</p>
+{% endif %}
+
+<script>
+    function redirectToAdd() {
+        window.location.href = "/add";
+    }
+    function redirectToAll() {
+        window.location.href = "/all";
+    }
+    function redirectToUpdate() {
+        window.location.href = "/change";
+    }
+    function redirectToHome() {
+        window.location.href = "/"
+    }
+    function redirectToGraphs() {
+        window.location.href = "/graphs";
+    }
+</script>
+
+</body>
+</html>
