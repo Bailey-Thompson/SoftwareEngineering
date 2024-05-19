@@ -72,6 +72,8 @@
 
 <div class="navbar">
     <a href="#" onclick="redirectToHome()">Home</a>
+    <a href="#" onclick="redirectToNAirport()">New Airport</a>
+    <a href="#" onclick="redirectToUAirport()">Update Airport</a>
 </div>
 
 <div class="main-container">
@@ -80,6 +82,12 @@
 <script>
     function redirectToHome() {
         window.location.href = "/"
+    }
+    function redirectToNAirport() {
+        window.location.href = "/NewAirport"
+    }
+    function redirectToUAirport() {
+        window.location.href = "/UpdateAirport"
     }
 </script>
 

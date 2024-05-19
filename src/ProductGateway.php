@@ -45,7 +45,20 @@ class ProductGateway
         return $data;
     }
 
+    public function createAirport(array $data): string
+    {
+        $sql = "INSERT INTO City (AIRCODE, TIME_ZONE)
+                VALUES (:AIRCODE, :TIME_ZONE)";
 
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":AIRCODE", $data["aircode"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":TIME_ZONE", $data["time_zone"] ?? "", PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $this->conn->lastInsertId();
+    }
     public function create(array $data): string
     {
         
