@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Data to HTML with Twig</title>
+    <style>
+    input {
+        text-align: center;
+        width: 100%;
+        padding: 12px 20px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    li {
+        text-align: center;
+        width: 40%;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    ul {
+        list-style-type: none;
+    }
+    #data-container{
+        text-align: center;
+        width: 40%;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    </style>
+</head>
+<body>
+
+{% if data %}
+    <div id="data-container">
+        <ul>
+            {% for record in data %}
+                <li>
+                    <p><span>Flight Number:</span> {{ record.FLIGHTNUM }}</p>
+                    <p><span>Air Code:</span> {{ record.AIRCODE }}</p>
+                    <p><span>Stop Order:</span> {{ record.Stop_Order }}</p>
+                    <p><span>Destination Time:</span> {{ record.Dept_Time }}</p>
+                    <p><span>Destination Date:</span> {{ record.Dept_Date }}</p>
+                    <p><span>Arrival Time:</span> {{ record.Arr_Time }}</p>
+                    <p><span>Arrival Date:</span> {{ record.Arr_Date }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+    <div id="data-container">
+        <p>No records found.</p>
+    </div>
+{% endif %}
+    </div>
+</body>
+</html>

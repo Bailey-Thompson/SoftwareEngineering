@@ -9,25 +9,6 @@ class ProductGateway
         $this->conn = $database->getConnection();
     }
 
-    // public function getAll(): array
-    // {
-    //     $sql = "SELECT *
-    //     FROM Driver
-    //     JOIN Car ON Driver.ID = Car.ID
-    //     JOIN Claims ON Driver.ID = Claims.ID";
-
-    //     $stmt = $this->conn->query($sql);
-
-    //     $data = [];
-
-    //     while ($row  = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-    //         $data[] = $row;
-    //     }
-
-    //     return $data;
-    // }
-
     public function getAllCities(): array
     {
         $sql = "SELECT *
@@ -276,7 +257,7 @@ class ProductGateway
         $stmt->bindValue(":ARR_TIME", $arrtime, PDO::PARAM_STR);
         $stmt->bindValue(":ARR_DATE", $arrdate, PDO::PARAM_STR);
         $stmt->bindValue(":NUMSER", $numser, PDO::PARAM_INT);
-        
+
         $stmt->bindValue(":FLIGHTNUM", (int) $id, PDO::PARAM_INT);
 
         $stmt->execute();
@@ -315,5 +296,61 @@ class ProductGateway
         $stmt->execute();
 
         return $stmt->rowCount();
+    }
+
+    public function createStop(array $data): string
+    {
+        function formatDate($date) {
+            $d = DateTime::createFromFormat('Y-m-d', $date);
+            return $d ? $d->format('Y-m-d') : null;
+        }
+        function formatTime($time) {
+            $t = DateTime::createFromFormat('H:i', $time);
+            return $t ? $t->format('H:i:s') : null;
+        }
+    
+        $dept_date = isset($data["dept_date"]) && !empty($data["dept_date"]) ? formatDate($data["dept_date"]) : null;
+        $arr_date = isset($data["arr_date"]) && !empty($data["arr_time"]) ? formatDate($data["arr_date"]) : null;
+        $dept_time = isset($data["dept_time"]) && !empty($data["dept_time"]) ? formatTime($data["dept_time"]) : null;
+        $arr_time = isset($data["arr_time"]) && !empty($data["arr_time"]) ? formatTime($data["arr_time"]) : null;
+    
+        $sql = "INSERT INTO Flight_Stops (FLIGHTNUM, AIRCODE, STOP_ORDER, DEPT_TIME, DEPT_DATE, ARR_TIME, ARR_DATE)
+                VALUES (:FLIGHTNUM, :AIRCODE, :STOP_ORDER, :DEPT_TIME, :DEPT_DATE, :ARR_TIME, :ARR_DATE)";
+    
+        $stmt = $this->conn->prepare($sql);
+    
+        $stmt->bindValue(":FLIGHTNUM", (int) $data["flightnum"], PDO::PARAM_INT);
+        $stmt->bindValue(":AIRCODE", $data["aircode"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":STOP_ORDER", (int) $data["stop_order"], PDO::PARAM_INT);
+        $stmt->bindValue(":DEPT_TIME", $dept_time, PDO::PARAM_STR);
+        $stmt->bindValue(":DEPT_DATE", $dept_date, PDO::PARAM_STR);
+        $stmt->bindValue(":ARR_TIME", $arr_time, PDO::PARAM_STR);
+        $stmt->bindValue(":ARR_DATE", $arr_date, PDO::PARAM_STR);
+    
+        $stmt->execute();
+    
+        return $this->conn->lastInsertId();
+    }
+
+    public function getStop(string $id): ?array{
+        $sql = "SELECT *
+        FROM Flight_Stops
+        WHERE Flight_Stops.flightnum = :flightnum";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":flightnum", $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        
+        $data = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $data[] = $row;
+        }
+
+        return $data;
     }
 }
