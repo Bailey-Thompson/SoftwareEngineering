@@ -352,6 +352,21 @@ class ProductGateway
         return $data;
     }
 
+    public function addStaff(array $data): string
+    {
+        $sql = "INSERT INTO Staff_Flight (EMPNUM, FLIGHTNUM)
+                VALUES (:EMPNUM, :FLIGHTNUM)";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":EMPNUM", $data["empnum"], PDO::PARAM_INT);
+        $stmt->bindValue(":FLIGHTNUM", $data["flightnum"], PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $this->conn->lastInsertId();
+    }
+
     public function createPassenger(array $data): string
     {
         $sql = "INSERT INTO Passenger (PASSNUM, SURNAME, FORENAME, ADDRESS, PHONE)
@@ -462,5 +477,86 @@ class ProductGateway
         }
 
         return $data;
+    }
+
+    public function createEmployee(array $data): string
+    {
+        $sql = "INSERT INTO Staff (EMPNUM, SURNAME, FORENAME, ADDRESS, PHONE, SALARY, IS_PILOT)
+                VALUES (:EMPNUM, :SURNAME, :FORENAME, :ADDRESS, :PHONE, :SALARY, :IS_PILOT)";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":EMPNUM", $data["empnum"], PDO::PARAM_INT);
+        $stmt->bindValue(":SURNAME", $data["surname"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":FORENAME", $data["forename"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":ADDRESS", $data["address"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":PHONE", $data["phone"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":SALARY", $data["salary"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":IS_PILOT", $data["ispilot"] ?? "", PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $this->conn->lastInsertId();
+    }
+
+    public function updateEmployee(array $current, array $new, string $id): int
+    {
+        $sql = "UPDATE Staff
+                SET SURNAME = :SURNAME, FORENAME = :FORENAME, ADDRESS = :ADDRESS, PHONE = :PHONE, SALARY = :SALARY, IS_PILOT = :IS_PILOT
+                WHERE EMPNUM = :EMPNUM";
+    
+        $stmt = $this->conn->prepare($sql);
+    
+        $surname = isset($new["surname"]) && !empty($new["surname"]) ? $new["surname"] : $current["Surname"];
+        $forename = isset($new["forename"]) && !empty($new["forename"]) ? $new["forename"] : $current["Forename"];
+        $address = isset($new["address"]) && !empty($new["address"]) ? $new["address"] : $current["Address"];
+        $phone = isset($new["phone"]) && !empty($new["phone"]) ? $new["phone"] : $current["Phone"];
+        $salary = isset($new["salary"]) && !empty($new["salary"]) ? $new["salary"] : $current["Salary"];
+        $ispilot = isset($new["is_pilot"]) && !empty($new["is_pilot"]) ? $new["is_pilot"] : $current["Is_Pilot"];
+    
+        $stmt->bindValue(":SURNAME", $surname, PDO::PARAM_STR);
+        $stmt->bindValue(":FORENAME", $forename, PDO::PARAM_STR);
+        $stmt->bindValue(":ADDRESS", $address, PDO::PARAM_STR);
+        $stmt->bindValue(":PHONE", $phone, PDO::PARAM_STR);
+        $stmt->bindValue(":SALARY", $salary, PDO::PARAM_STR);
+        $stmt->bindValue(":IS_PILOT", $ispilot, PDO::PARAM_STR);
+        $stmt->bindValue(":EMPNUM", (int) $id, PDO::PARAM_INT);
+    
+        $stmt->execute();
+    
+        return $stmt->rowCount();
+    }
+
+    public function getEmployee(string $id): ?array{
+        $sql = "SELECT *
+        FROM Staff
+        WHERE Staff.empnum = :empnum";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":empnum", $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data === false) {
+            return null;
+        }
+
+        return $data;
+    }
+
+    public function deleteEmployee(string $id): int
+    {
+        $sql = "DELETE FROM Staff WHERE EMPNUM = :EMPNUM";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":EMPNUM", $id, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
     }
 }

@@ -6,7 +6,7 @@ $loader = new \Twig\Loader\FilesystemLoader(__DIR__);
 
 $twig = new \Twig\Environment(new \Twig\Loader\FilesystemLoader(__DIR__ . '/../../../views'));
 
-class AddStop
+class AddStaff
 {
     private ProductGateway $gateway;
     private \Twig\Environment $twig;
@@ -18,15 +18,10 @@ class AddStop
     public function processRequest(string $method, ?string $id): void
     {
 
+        $empnum = $_POST["EMPNUM"];
         $flightnum = $_POST["FLIGHTNUM"];
-        $aircode = $_POST["AIRCODE"];
-        $stoporder = $_POST["STOP_ORDER"];
-        $deptime = $_POST["DEPT_TIME"];
-        $depdate = $_POST["DEPT_DATE"];
-        $arrtime = $_POST["ARR_TIME"];
-        $arrdate = $_POST["ARR_DATE"];
 
-        $data = ["flightnum" => $flightnum, "aircode" => $aircode, "stop_order" => $stoporder, "dept_time" => $deptime, "dept_date" => $depdate, "arr_time" => $arrtime, "arr_date" => $arrdate];
+        $data = ["empnum" => $empnum, "flightnum" => $flightnum];
 
         $this->processResourceRequest($method, $data);
 
@@ -45,7 +40,7 @@ class AddStop
                         break;
                     }
         
-                    $id = $this->gateway->createStop($data);
+                    $id = $this->gateway->addStaff($data);
                     http_response_code(201);
                     echo $this->twig->render("home.php",$data);
                     break;

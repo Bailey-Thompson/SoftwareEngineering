@@ -111,6 +111,11 @@ switch ($request) {
     case '/AssignStaff':
         require_once(__DIR__ . '/views/flight/assignstaff.twig');
         break;
+    case '/manageStaff':
+        require __DIR__ . '/src/controllers/flightcontrollers/ManageStaff.php';
+        $controller = new AddStaff($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['EMPNUM']);
+        break;
     case '/SearchStaff':
         require_once(__DIR__ . '/views/flight/searchstaff.twig');
         break;
@@ -187,6 +192,35 @@ switch ($request) {
         $controller = new ViewBooking($gateway, $twig);
         $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['PASSNUM']);
         break;
+    case '/staff':
+        require __DIR__ . $viewDir . 'staff.php';
+        break;
+        case '/NewEmployee':
+            require_once(__DIR__ . '/views/staff/newemployee.twig');
+            break;
+        case '/UpdateEmployee':
+            require_once(__DIR__ . '/views/staff/updateemployee.twig');
+            break;
+        case '/createEmployee':
+            require __DIR__ . '/src/controllers/employeecontrollers/AddEmployee.php';
+            $controller = new AddEmployee($gateway, $twig);
+            $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['EMPNUM']);
+            break;
+        case '/updateEmployee':
+            require __DIR__ . '/src/controllers/employeecontrollers/UpdateEmployee.php';
+            $controller = new UpdateEmployee($gateway, $twig);
+            $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['EMPNUM']);
+            break;
+        case '/viewEmployee':
+            require __DIR__ . '/src/controllers/employeecontrollers/ViewEmployee.php';
+            $controller = new ViewEmployee($gateway, $twig);
+            $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['EMPNUM']);
+            break;
+        case '/deleteEmployee':
+            require __DIR__ . '/src/controllers/employeecontrollers/DeleteEmployee.php';
+            $controller = new DeleteEmployee($gateway, $twig);
+            $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['EMPNUM']);
+            break;
     default:
         http_response_code(404);
     }
