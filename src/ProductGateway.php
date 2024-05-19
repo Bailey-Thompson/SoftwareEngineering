@@ -9,12 +9,29 @@ class ProductGateway
         $this->conn = $database->getConnection();
     }
 
-    public function getAll(): array
+    // public function getAll(): array
+    // {
+    //     $sql = "SELECT *
+    //     FROM Driver
+    //     JOIN Car ON Driver.ID = Car.ID
+    //     JOIN Claims ON Driver.ID = Claims.ID";
+
+    //     $stmt = $this->conn->query($sql);
+
+    //     $data = [];
+
+    //     while ($row  = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+    //         $data[] = $row;
+    //     }
+
+    //     return $data;
+    // }
+
+    public function getAllCities(): array
     {
         $sql = "SELECT *
-        FROM Driver
-        JOIN Car ON Driver.ID = Car.ID
-        JOIN Claims ON Driver.ID = Claims.ID";
+        FROM City";
 
         $stmt = $this->conn->query($sql);
 
@@ -27,7 +44,8 @@ class ProductGateway
 
         return $data;
     }
-    
+
+
     public function create(array $data): string
     {
         
