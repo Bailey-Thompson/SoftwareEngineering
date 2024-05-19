@@ -148,18 +148,23 @@ class ProductGateway
     {
         $sql = "UPDATE Airplane
                 SET MANUFACTURER = :MANUFACTURER, MODEL = :MODEL, TOTAL_SEATS = :TOTAL_SEATS
-                WHERE NUMSER =:NUMSER";
-
+                WHERE NUMSER = :NUMSER";
+    
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindValue(":MANUFACTURER", !empty($new["manufacturer"]) ? $new["manufacturer"] : $current["MANUFACTURER"], PDO::PARAM_STR);
-        $stmt->bindValue(":MODEL", !empty($new["model"]) ? $new["model"] : $current["MODEL"], PDO::PARAM_STR);
-        $stmt->bindValue(":TOTAL_SEATS", !empty($new["total_seats"]) ? (int)$new["total_seats"] : $current["TOTAL_SEATS"], PDO::PARAM_INT);
-
+        var_dump($current);
+    
+        $manufacturer = isset($new["manufacturer"]) && !empty($new["manufacturer"]) ? $new["manufacturer"] : $current["Manufacturer"];
+        $model = isset($new["model"]) && !empty($new["model"]) ? $new["model"] : $current["Model"];
+        $totalSeats = isset($new["total_seats"]) && !empty($new["total_seats"]) ? (int)$new["total_seats"] : $current["Total_Seats"];
+    
+        $stmt->bindValue(":MANUFACTURER", $manufacturer, PDO::PARAM_STR);
+        $stmt->bindValue(":MODEL", $model, PDO::PARAM_STR);
+        $stmt->bindValue(":TOTAL_SEATS", $totalSeats, PDO::PARAM_INT);
         $stmt->bindValue(":NUMSER", (int) $id, PDO::PARAM_INT);
-
+    
         $stmt->execute();
-
+    
         return $stmt->rowCount();
     }
 
@@ -190,6 +195,122 @@ class ProductGateway
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bindValue(":NUMSER", $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
+    public function getAllFlights(): array
+    {
+        $sql = "SELECT *
+        FROM Flight";
+
+        $stmt = $this->conn->query($sql);
+
+        $data = [];
+
+        while ($row  = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $data[] = $row;
+        }
+
+        return $data;
+    }
+
+    public function createFlight(array $data): string
+    {
+        function formatDate($date) {
+            $d = DateTime::createFromFormat('Y-m-d', $date);
+            return $d ? $d->format('Y-m-d') : null;
+        }
+        function formatTime($time) {
+            $t = DateTime::createFromFormat('H:i', $time);
+            return $t ? $t->format('H:i:s') : null;
+        }
+    
+        $dept_date = isset($data["dept_date"]) && !empty($data["dept_date"]) ? formatDate($data["dept_date"]) : null;
+        $arr_date = isset($data["arr_date"]) && !empty($data["arr_time"]) ? formatDate($data["arr_date"]) : null;
+        $dept_time = isset($data["dept_time"]) && !empty($data["dept_time"]) ? formatTime($data["dept_time"]) : null;
+        $arr_time = isset($data["arr_time"]) && !empty($data["arr_time"]) ? formatTime($data["arr_time"]) : null;
+    
+        $sql = "INSERT INTO Flight (FLIGHTNUM, ORIGIN_AIRCODE, DESTINATION_AIRCODE, DEPT_TIME, DEPT_DATE, ARR_TIME, ARR_DATE, NUMSER)
+                VALUES (:FLIGHTNUM, :ORIGIN_AIRCODE, :DESTINATION_AIRCODE, :DEPT_TIME, :DEPT_DATE, :ARR_TIME, :ARR_DATE, :NUMSER)";
+    
+        $stmt = $this->conn->prepare($sql);
+    
+        $stmt->bindValue(":FLIGHTNUM", (int) $data["flightnum"], PDO::PARAM_INT);
+        $stmt->bindValue(":ORIGIN_AIRCODE", $data["origin_aircode"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":DESTINATION_AIRCODE", $data["destination_aircode"] ?? "", PDO::PARAM_STR);
+        $stmt->bindValue(":DEPT_TIME", $dept_time, PDO::PARAM_STR);
+        $stmt->bindValue(":DEPT_DATE", $dept_date, PDO::PARAM_STR);
+        $stmt->bindValue(":ARR_TIME", $arr_time, PDO::PARAM_STR);
+        $stmt->bindValue(":ARR_DATE", $arr_date, PDO::PARAM_STR);
+        $stmt->bindValue(":NUMSER", (int) ($data["numser"] ?? 0), PDO::PARAM_INT);
+    
+        $stmt->execute();
+    
+        return $this->conn->lastInsertId();
+    }
+
+    public function updateFlight(array $current, array $new, string $id): int
+    {
+        $sql = "UPDATE Flight
+                SET ORIGIN_AIRCODE = :ORIGIN_AIRCODE, DESTINATION_AIRCODE = :DESTINATION_AIRCODE, DEPT_TIME = :DEPT_TIME, DEPT_DATE = :DEPT_DATE, ARR_TIME = :ARR_TIME, ARR_DATE = :ARR_DATE, NUMSER = :NUMSER
+                WHERE FLIGHTNUM =:FLIGHTNUM";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $origin = isset($new["origin_aircode"]) && !empty($new["origin_aircode"]) ? $new["origin_aircode"] : $current["Origin_Aircode"];
+        $destination = isset($new["destination_aircode"]) && !empty($new["destination_aircode"]) ? $new["destination_aircode"] : $current["Destination_Aircode"];
+        $depttime = isset($new["dept_time"]) && !empty($new["dept_time"]) ? $new["dept_time"] : $current["Dept_Time"];
+        $deptdate= isset($new["dept_date"]) && !empty($new["dept_date"]) ? $new["dept_date"] : $current["Dept_Date"];
+        $arrtime = isset($new["arr_time"]) && !empty($new["arr_time"]) ? $new["arr_time"] : $current["Arr_Time"];
+        $arrdate = isset($new["arr_date"]) && !empty($new["arr_date"]) ? $new["arr_date"] : $current["Arr_Date"];
+        $numser = isset($new["numser"]) && !empty($new["numser"]) ? $new["numser"] : $current["NUMSER"];
+
+        $stmt->bindValue(":ORIGIN_AIRCODE", $origin, PDO::PARAM_STR);
+        $stmt->bindValue(":DESTINATION_AIRCODE", $destination, PDO::PARAM_STR);
+        $stmt->bindValue(":DEPT_TIME", $depttime, PDO::PARAM_STR);
+        $stmt->bindValue(":DEPT_DATE", $deptdate, PDO::PARAM_STR);
+        $stmt->bindValue(":ARR_TIME", $arrtime, PDO::PARAM_STR);
+        $stmt->bindValue(":ARR_DATE", $arrdate, PDO::PARAM_STR);
+        $stmt->bindValue(":NUMSER", $numser, PDO::PARAM_INT);
+        
+        $stmt->bindValue(":FLIGHTNUM", (int) $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
+
+    public function getFlight(string $id): ?array{
+        $sql = "SELECT *
+        FROM Flight
+        WHERE Flight.flightnum = :flightnum";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":flightnum", $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data === false) {
+            return null;
+        }
+
+        return $data;
+    }
+
+    public function deleteFlight(string $id): int
+    {
+        $sql = "DELETE FROM Flight WHERE FLIGHTNUM = :FLIGHTNUM";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":FLIGHTNUM", $id, PDO::PARAM_INT);
 
         $stmt->execute();
 

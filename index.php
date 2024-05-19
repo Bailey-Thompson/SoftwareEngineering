@@ -88,6 +88,47 @@ switch ($request) {
         $controller = new DeleteAirplane($gateway, $twig);
         $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['NUMSER']);
         break;
+    case '/flight':
+        require __DIR__ . $viewDir . 'flight.php';
+        break;
+    case '/NewFlight':
+        require_once(__DIR__ . '/views/flight/newflight.twig');
+        break;
+    case '/UpdateFlight':
+        require_once(__DIR__ . '/views/flight/updateflight.twig');
+        break;
+    case '/AddStop':
+        require_once(__DIR__ . '/views/flight/addstop.twig');
+        break;
+    case '/AssignStaff':
+        require_once(__DIR__ . '/views/flight/assignstaff.twig');
+        break;
+    case '/SearchStaff':
+        require_once(__DIR__ . '/views/flight/searchstaff.twig');
+        break;
+    case '/SearchPassengers':
+        require_once(__DIR__.'/views/flight.searchpassengers.twig');
+        break;
+    case '/createFlight':
+        require __DIR__ . '/src/controllers/flightcontrollers/AddFlight.php';
+        $controller = new AddFlight($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['FLIGHTNUM']);
+        break;
+    case '/updateFlight':
+        require __DIR__ . '/src/controllers/flightcontrollers/UpdateFlight.php';
+        $controller = new UpdateFlight($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['FLIGHTNUM']);
+        break;
+    case '/viewFlight':
+        require __DIR__ . '/src/controllers/flightcontrollers/ViewFlight.php';
+        $controller = new ViewFlight($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['FLIGHTNUM']);
+        break;
+    case '/deleteFlight':
+        require __DIR__ . '/src/controllers/flightcontrollers/DeleteFlight.php';
+        $controller = new DeleteFlight($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['FLIGHTNUM']);
+        break;
     default:
         http_response_code(404);
     }
