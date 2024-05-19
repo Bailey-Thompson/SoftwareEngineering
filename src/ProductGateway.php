@@ -426,4 +426,41 @@ class ProductGateway
 
         return $stmt->rowCount();
     }
+
+    public function createBooking(array $data): string
+    {
+        $sql = "INSERT INTO Flight_Information (PASSNUM, FLIGHTNUM)
+                VALUES (:PASSNUM, :FLIGHTNUM)";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":PASSNUM", (int) $data["passnum"], PDO::PARAM_INT);
+        $stmt->bindValue(":FLIGHTNUM", (int) ($data["flightnum"] ?? 0), PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $this->conn->lastInsertId();
+    }
+
+    public function getBooking(string $id): ?array{
+        $sql = "SELECT *
+        FROM Flight_Information
+        WHERE Flight_Information.passnum = :passnum";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":passnum", $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        
+        $data = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $data[] = $row;
+        }
+
+        return $data;
+    }
 }

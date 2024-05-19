@@ -49,44 +49,32 @@
 
 <div class="navbar">
     <a href="#" onclick="redirectToHome()">Home</a>
-    <a href="#" onclick="redirectToNFlight()">New Flight</a>
-    <a href="#" onclick="redirectToUFlight()">Update Flight</a>
-    <a href="#" onclick="redirectToAStop()">Add Stop</a>
-    <a href="#" onclick="redirectToVStop()">View Stops</a>
-    <a href="#" onclick="redirectToAStaff()">Assign Staff</a>
-    <a href="#" onclick="redirectToSStaff()">Search Staff</a>
-    <a href="#" onclick="redirectToSPassengers()">Search Passengers</a>
+    <a href="#" onclick="redirectToNPassenger()">New Passenger</a>
+    <a href="#" onclick="redirectToUPassenger()">Update Passenger</a>
+    <a href="#" onclick="redirectToBFlight()">Book Flight</a>
+    <a href="#" onclick="redirectToSBookings()">Search Bookings</a>
 </div>
 
-<form action="/loadStop" method="POST">
-<input type="int" id="FLIGHTNUM" name="FLIGHTNUM" placeholder="Flight Number">
+<form action="/loadBooking" method="POST">
+<input type="int" id="PASSNUM" name="PASSNUM" placeholder="Passenger Number">
 <button type="submit">View</button>
 </form>
 
 <script>
-    function redirectToHome() {
-        window.location.href = "/"
-    }
-    function redirectToNFlight() {
-        window.location.href = "/NewFlight"
-    }
-    function redirectToUFlight() {
-        window.location.href = "/UpdateFlight"
-    }
-    function redirectToAStop() {
-        window.location.href = "/AddStop"
-    }
-    function redirectToVStop() {
-        window.location.href = "/ViewStop"
-    }
-    function redirectToAStaff() {
-        window.location.href = "/AssignStaff"
-    }
-    function redirectToSStaff() {
-        window.location.href = "/SStaff"
-    }
-    function redirectToSPassengers() {
-        window.location.href = "/SPassengers"
+        function redirectToHome() {
+            window.location.href = "/"
+        }
+        function redirectToNPassenger() {
+            window.location.href = "/NewPassenger"
+        }
+        function redirectToUPassenger() {
+            window.location.href = "/UpdatePassenger"
+        }
+        function redirectToBFlight() {
+            window.location.href = "/BookFlight"
+        }
+        function redirectToSBookings() {
+            window.location.href = "/SearchBookings"
     }
 </script>
 

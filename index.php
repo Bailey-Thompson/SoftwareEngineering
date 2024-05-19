@@ -171,6 +171,22 @@ switch ($request) {
         $controller = new DeletePassenger($gateway, $twig);
         $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['PASSNUM']);
         break;
+    case '/BookFlight':
+        require_once(__DIR__ . '/views/passenger/bookflight.twig');
+        break;
+    case '/createBooking':
+        require __DIR__ . '/src/controllers/passengercontrollers/CreateBooking.php';
+        $controller = new AddBooking($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['PASSNUM']);
+        break;
+    case '/SearchBookings':
+        require_once(__DIR__ . '/views/booking.php');
+        break;
+    case '/loadBooking':
+        require __DIR__ . '/src/controllers/passengercontrollers/ViewBooking.php';
+        $controller = new ViewBooking($gateway, $twig);
+        $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['PASSNUM']);
+        break;
     default:
         http_response_code(404);
     }
