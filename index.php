@@ -240,6 +240,12 @@ switch ($request) {
             $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['EMPNUM']);
             break;
         case '/AddRating':
+            require_once(__DIR__ . '/views/staff/newpilot.twig');
+            break;
+        case '/createPilot':
+            require __DIR__ . '/src/controllers/employeecontrollers/CreatePilot.php';
+            $controller = new AddPilot($gateway, $twig);
+            $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['EMPNUM']);
             break;
     default:
         http_response_code(404);

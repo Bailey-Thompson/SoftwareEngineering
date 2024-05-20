@@ -32,7 +32,7 @@
         border-radius: 4px;
         box-sizing: border-box;
     }
-    #data-container{
+    form {
         text-align: center;
         width: 40%;
         margin: 20px auto;
@@ -51,22 +51,12 @@
         <a href="#" onclick="redirectToVFlights()">View Flights</a>
         <a href="#" onclick="redirectToARating()">Add Pilot Rating</a>
     </div>
-    <form action="/updateEmployee" method="POST">
+    <form action="/createPilot" method="POST">
         <input type="int" id="EMPNUM" name="EMPNUM" placeholder="Employee Number">
         <br>
-        <input type="text" id="SURNAME" name="SURNAME" placeholder="Surname">
+        <input type="int" id="TYPE_RATING" name="TYPE_RATING" placeholder="Type Rating">
         <br>
-        <input type="text" id="FORENAME" NAME="FORENAME" placeholder="Forename">
-        <br>
-        <input type="text" id="ADDRESS" NAME="ADDRESS" placeholder="Address">
-        <br>
-        <input type="text" id="PHONE" NAME="PHONE" placeholder="Phone">
-        <br>
-        <input type="float" id="SALARY" NAME="SALARY" placeholder="Salary">
-        <br>
-        <input type="text" id="IS_PILOT" NAME="IS_PILOT" placeholder="Is Pilot?">
-        <br>
-        <button type="submit">Update</button>
+        <button type="submit">Create</button>
     </form>
     <script>
     function redirectToHome() {

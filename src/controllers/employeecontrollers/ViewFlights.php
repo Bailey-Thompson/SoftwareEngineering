@@ -93,7 +93,6 @@ class ViewFlights
                     if ($data === null) {
                         echo '<div class="error-container">Employee Number does not exist.</div>';
                     } else {
-                        var_dump($data);
                         echo $this->twig->render("staff/viewflight.twig", ["data" => $data]);
                     }
                     break;

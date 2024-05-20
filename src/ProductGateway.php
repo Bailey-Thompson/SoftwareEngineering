@@ -9,23 +9,6 @@ class ProductGateway
         $this->conn = $database->getConnection();
     }
 
-    public function getAllCities(): array
-    {
-        $sql = "SELECT *
-        FROM City";
-
-        $stmt = $this->conn->query($sql);
-
-        $data = [];
-
-        while ($row  = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-            $data[] = $row;
-        }
-
-        return $data;
-    }
-
     public function createAirport(array $data): string
     {
         $sql = "INSERT INTO City (AIRCODE, TIME_ZONE)
@@ -606,5 +589,20 @@ class ProductGateway
         }
         
         return $data;
+    }
+
+    public function createPilot(array $data): string
+    {
+        $sql = "INSERT INTO Pilot (EMPNUM, TYPE_RATING)
+                VALUES (:EMPNUM, :TYPE_RATING)";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":EMPNUM", (int) $data["empnum"], PDO::PARAM_INT);
+        $stmt->bindValue(":TYPE_RATING", (int) $data["type_rating"], PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $this->conn->lastInsertId();
     }
 }
