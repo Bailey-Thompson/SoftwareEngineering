@@ -87,6 +87,7 @@
 </div>
 
 <script>
+    //navbar functions scripts
     function redirectToHome() {
         window.location.href = "/"
     }

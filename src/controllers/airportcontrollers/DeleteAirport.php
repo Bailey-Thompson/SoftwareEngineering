@@ -25,9 +25,11 @@ class DeleteAirport
     }
 
     private function processResourceRequest(string $method, $id): void
-    {
+    {   
+        //save fetched data as $record
         $record = $this->gateway->getAirport($id);
 
+        //If record is empty, There is not Aircode
         if ( ! $record) {
             http_response_code(404);
             echo json_encode(["message" => "Aircode not found"]);
@@ -38,6 +40,7 @@ class DeleteAirport
 
             case "POST":
                 $data = $this->gateway->deleteAirport($id);
+                //Return to homepage when done
                 echo $this->twig->render("home.php");
                 break;
     

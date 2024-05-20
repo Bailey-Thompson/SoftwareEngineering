@@ -17,33 +17,36 @@ class AddAirplane
     }
     public function processRequest(string $method, ?string $id): void
     {
+        //fetches data from form and sets to variables
         $numser = $_POST["NUMSER"];
         $manufacturer = $_POST["MANUFACTURER"];
         $model = $_POST["MODEL"];
         $total_seats = $_POST["TOTAL_SEATS"];
 
+        //creates an array $data
         $data = ["numser" => $numser, "manufacturer" => $manufacturer, "model" => $model, "total_seats" => $total_seats];
 
+        //Passes the array into processResourceRequest
         $this->processResourceRequest($method, $data);
 
     }
-
     private function processResourceRequest(string $method, $data): void
     {
         {
             switch ($method) {
         
                 case "POST":
-                    $errors = $this->getValidationErrors($data, false);
         
                     if ( ! empty($errors)) {
                         http_response_code(422);
                         echo json_encode(["errors" => $errors]);
                         break;
                     }
-        
+                    
+                    //carries out the createAirplane function found in ProductGateway
                     $id = $this->gateway->createAirplane($data);
                     http_response_code(201);
+                    //Sends the user back to the homepage
                     echo $this->twig->render("home.php",$data);
                     break;
         
@@ -54,23 +57,6 @@ class AddAirplane
         
         }
 
-    }
-
-    private function getValidationErrors(array $data, bool $is_new = true): array
-    {
-        $errors = [];
-
-        if ($is_new && empty($data["id"])) {
-            $errors[] = "ID is required";
-        }
-
-        if (isset($data["kidsdriv"]) && $data["kidsdriv"] !== "") {
-            if (filter_var($data["kidsdriv"], FILTER_VALIDATE_INT) === false) {
-                $errors[] = "Kids Drive must be an integer";
-            }
-        }
-
-        return $errors;
     }
 }
 

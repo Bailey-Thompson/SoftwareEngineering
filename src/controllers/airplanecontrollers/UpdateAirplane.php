@@ -43,8 +43,6 @@ class UpdateAirplane
                 $totalseats = $_POST["TOTAL_SEATS"];
         
                 $data = ["numser" => $numser, "manufacturer" => $manufacturer, "model" => $model, "total_seats" => $totalseats];
-
-                $errors = $this->getValidationErrors($data, false);
     
                 if ( ! empty($errors)) {
                     http_response_code(422);
@@ -62,23 +60,6 @@ class UpdateAirplane
                 header("Allow: GET, PATCH, DELETE, POST");
         }
 
-    }
-
-    private function getValidationErrors(array $data, bool $is_new = true): array
-    {
-        $errors = [];
-
-        if ($is_new && empty($data["id"])) {
-            $errors[] = "id is required";
-        }
-
-        if (isset($data["kidsdriv"]) && $data["kidsdriv"] !== "") {
-            if (filter_var($data["kidsdriv"], FILTER_VALIDATE_INT) === false) {
-                $errors[] = "Kids Drive must be an integer";
-            }
-        }
-
-        return $errors;
     }
 }
 

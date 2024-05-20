@@ -1,0 +1,86 @@
+#CREATE DATABASE airline;
+
+USE airline;
+
+#CREATE TABLE Airplane (
+    #NUMSER INT PRIMARY KEY,
+    #Manufacturer VARCHAR(100),
+    #Model VARCHAR(100),
+    #Total_Seats INT
+#);
+
+#CREATE TABLE City (
+	#AIRCODE VARCHAR(3) PRIMARY KEY,
+    #Time_Zone VARCHAR(4)
+#);
+
+#CREATE TABLE Flight (
+    #FLIGHTNUM INT PRIMARY KEY,
+    #Origin_Aircode VARCHAR(3),
+    #Destination_Aircode VARCHAR(3),
+    #Dept_Time TIME,
+    #Dept_Date DATE,
+    #Arr_Time TIME,
+    #Arr_Date DATE,
+    #NUMSER INT,
+    #FOREIGN KEY (Origin_Aircode) REFERENCES City(AIRCODE),
+    #FOREIGN KEY (Destination_Aircode) REFERENCES City(AIRCODE),
+    #FOREIGN KEY (NUMSER) REFERENCES Airplane(NUMSER)
+#);
+
+#CREATE TABLE Passenger (
+    #PASSNUM INT PRIMARY KEY,
+    #Surname VARCHAR(100),
+    #Forename VARCHAR(100),
+    #Address VARCHAR(255),
+    #Phone VARCHAR(20)
+#);
+
+CREATE TABLE Flight_Information (
+    PASSNUM INT,
+    FLIGHTNUM INT,
+    PRIMARY KEY (PASSNUM, FLIGHTNUM),
+    FOREIGN KEY (FLIGHTNUM) REFERENCES Flight(FLIGHTNUM),
+    FOREIGN KEY (PASSNUM) REFERENCES Passenger(PASSNUM)
+);
+
+CREATE TABLE Flight_Stops (
+    FLIGHTNUM INT,
+    AIRCODE VARCHAR(3),
+    Stop_Order INT,
+    Arr_Time TIME,
+    Dept_Time TIME,
+    Dept_Date DATE,
+    Arr_Date DATE,
+    PRIMARY KEY (FLIGHTNUM, AIRCODE),
+    FOREIGN KEY (FLIGHTNUM) REFERENCES Flight(FLIGHTNUM),
+    FOREIGN KEY (AIRCODE) REFERENCES City(AIRCODE)
+);
+    
+CREATE TABLE Staff (
+    EMPNUM INT PRIMARY KEY,
+    Surname VARCHAR(100),
+    Forename VARCHAR(100),
+    Address VARCHAR(255),
+    Phone VARCHAR(20),
+    Salary DECIMAL(10, 2),
+    Is_Pilot VARCHAR(3)
+);
+
+CREATE TABLE Pilot (
+    EMPNUM INT PRIMARY KEY,
+    TYPE_RATING VARCHAR(50)
+);
+
+CREATE TABLE Staff_Flight (
+    EMPNUM INT,
+    FLIGHTNUM INT,
+    PRIMARY KEY (EMPNUM, FLIGHTNUM),
+    FOREIGN KEY (EMPNUM) REFERENCES Staff(EMPNUM),
+    FOREIGN KEY (FLIGHTNUM) REFERENCES Flight(FLIGHTNUM)
+);
+
+
+
+
+

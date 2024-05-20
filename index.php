@@ -20,10 +20,10 @@ $database = new Database("localhost", "airline", "root", "Datto@2004");
 
 $gateway = new ProductGateway($database);
 
-//$controller = new ProductController($gateway);
-
 $request = $_SERVER['REQUEST_URI'];
+//file path
 $viewDir = '/views/';
+//switch for url
 switch ($request) {
     case '':
     case '/':
@@ -31,32 +31,53 @@ switch ($request) {
         require __DIR__ . $viewDir . 'home.php';
         break;
     case '/city':
+        //views + city.php
         require __DIR__ . $viewDir . 'city.php';
         break;
+    //NewAirport case, Allows the user to add a new airport to the database
     case '/NewAirport':
+        //loads newairport.twig which is the form for creating a new airport
         require_once(__DIR__ . '/views/airport/newairport.twig');
         break;
+    //UpdateAirport case, Allows the user to update an airport already in the database
     case '/UpdateAirport':
+        //loads updateairport.twig which is the form for updating an airport
         require_once(__DIR__ . '/views/airport/updateairport.twig');
         break;
+    //createAirport case, carried out after submitting the form
     case '/createAirport':
+        //Takes the user to /AddAirport.php
         require __DIR__ . '/src/controllers/airportcontrollers/AddAirport.php';
+        //Creates an instance of the AddAiport controller
         $controller = new AddAirport($gateway, $twig);
+        //Process the Request passing in the current method (POST) and the Aircode
         $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
         break;
+    //createUpdate case, carried out after submitting the form
     case '/updateAirport':
+        //Takes the user to /UpdateAirport.php
         require __DIR__ . '/src/controllers/airportcontrollers/UpdateAirport.php';
+        //Creates an instance of the UpdateAirport controller
         $controller = new UpdateAirport($gateway, $twig);
+        //Process the Request passing in the current method (POST) and the Aircode
         $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
         break;
+    //viewAirport case
     case '/viewAirport':
+        //Loads ViewAirport.php
         require __DIR__ . '/src/controllers/airportcontrollers/ViewAirport.php';
+        //Creates an instance of the ViewAirport controller
         $controller = new ViewAirport($gateway, $twig);
+        //Process the Request passing in the current method (POST) and the Aircode
         $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
         break;
+    //deleteAirport case
     case '/deleteAirport':
+        //Loads the DeleteAirport.php
         require __DIR__ . '/src/controllers/airportcontrollers/DeleteAirport.php';
+        //Creates an instance of the DeleteAirport controller
         $controller = new DeleteAirport($gateway, $twig);
+        //Process the Request passing in the current method (POST) and the Aircode
         $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['AIRCODE']);
         break;
     case '/airplane':

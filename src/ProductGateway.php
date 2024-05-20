@@ -6,8 +6,11 @@ class ProductGateway
 
     public function __construct(Database $database)
     {
+        //Connect to database
         $this->conn = $database->getConnection();
     }
+
+    //SQL Statements for manipulating data in the database
 
     public function createAirport(array $data): string
     {
@@ -42,16 +45,21 @@ class ProductGateway
     }
 
     public function getAirport(string $id): ?array{
+        //Selects all records from City where the aircode is equal is to the one entered in the form
         $sql = "SELECT *
         FROM City
-        WHERE City.aircode = :aircode";
-
+        WHERE City.aircode = :aircode"; 
+        
+        //Prepares the sql statement
         $stmt = $this->conn->prepare($sql);
 
+        //Binds the value of the $id variable to the aircode placeholder
         $stmt->bindValue(":aircode", $id, PDO::PARAM_STR);
 
+        //Executes the $sql statement
         $stmt->execute();
 
+        //Fetches the result and stores it as $data
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($data === false) {
@@ -63,12 +71,16 @@ class ProductGateway
 
     public function deleteAirport(string $id): int
     {
+        //$sql is equal to the following delete statement
         $sql = "DELETE FROM City WHERE AIRCODE = :AIRCODE";
 
+        //Prepares the SQL Statement
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindValue(":AIRCODE", $id, PDO::PARAM_STR);
+        //Binds the value of the $id value to aircode placeholder
+        $stmt->bindValue(":AIRCODE", $id, PDO::PARAM_STR);  
 
+        //Executes the SQL statement
         $stmt->execute();
 
         return $stmt->rowCount();
