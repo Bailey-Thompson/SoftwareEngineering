@@ -231,6 +231,16 @@ switch ($request) {
             $controller = new DeleteEmployee($gateway, $twig);
             $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['EMPNUM']);
             break;
+        case '/ViewFlights':
+            require_once(__DIR__.'/views/displayAFlights.php');
+            break;
+        case '/loadAFlights':
+            require __DIR__ . '/src/controllers/employeecontrollers/ViewFlights.php';
+            $controller = new ViewFlights($gateway, $twig);
+            $controller->processRequest($_SERVER['REQUEST_METHOD'], $_POST['EMPNUM']);
+            break;
+        case '/AddRating':
+            break;
     default:
         http_response_code(404);
     }

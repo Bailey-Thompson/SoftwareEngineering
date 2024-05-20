@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Data to HTML with Twig</title>
+    <style>
+    input {
+        text-align: center;
+        width: 100%;
+        padding: 12px 20px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    li {
+        text-align: center;
+        width: 40%;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    ul {
+        list-style-type: none;
+    }
+    #data-container{
+        text-align: center;
+        width: 40%;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    </style>
+</head>
+<body>
+
+{% if data %}
+    <div id="data-container">
+        <ul>
+            {% for record in data %}
+                <li>
+                    <p><span>Employee Number:</span> {{ record.EMPNUM }}</p>
+                    <p><span>Flight Number:</span> {{ record.FLIGHTNUM }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+    <div id="data-container">
+        <p>No records found.</p>
+    </div>
+{% endif %}
+    </div>
+</body>
+</html>

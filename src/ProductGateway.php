@@ -586,4 +586,25 @@ class ProductGateway
 
         return $stmt->rowCount();
     }
+
+    public function getFlights(string $id): ?array{
+        $sql = "SELECT *
+        FROM Staff_Flight
+        WHERE Staff_Flight.empnum = :empnum";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":empnum", $id, PDO::PARAM_INT);
+
+        $stmt->execute();
+        
+        $data = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $data[] = $row;
+        }
+        
+        return $data;
+    }
 }

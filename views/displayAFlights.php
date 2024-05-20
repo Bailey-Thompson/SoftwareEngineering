@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .navbar {
+            background-color: #4CAF50;
+            overflow: hidden;
+            width: 100%;
+        }
+        
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        input {
+        text-align: center;
+        width: 100%;
+        padding: 12px 20px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+        form {
+            text-align: center;
+            width: 40%;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="#" onclick="redirectToHome()">Home</a>
+    <a href="#" onclick="redirectToNEmployee()">New Employee</a>
+    <a href="#" onclick="redirectToUEmployee()">Update Employee</a>
+    <a href="#" onclick="redirectToVFlights()">View Flights</a>
+    <a href="#" onclick="redirectToARating()">Add Pilot Rating</a>
+</div>
+
+<form action="/loadAFlights" method="POST">
+<input type="int" id="EMPNUM" name="EMPNUM" placeholder="Employee Number">
+<button type="submit">View</button>
+</form>
+
+<script>
+    function redirectToHome() {
+        window.location.href = "/"
+    }
+    function redirectToNEmployee() {
+        window.location.href = "/NewEmployee"
+    }
+    function redirectToUEmployee() {
+        window.location.href = "/UpdateEmployee"
+    }
+    function redirectToVFlights() {
+        window.location.href = "/ViewFlights"
+    }
+    function redirectToARating() {
+        window.location.href = "/AddRating"
+    }
+</script>
+
+</body>
+</html>
